@@ -74,6 +74,7 @@ function CreateAccount(){
     setName('');
     setEmail('');
     setPassword('');
+    setValid(false);
     setShow(true);
   }
 
