@@ -21,4 +21,32 @@ function Card(props){
         </div>
       </div>      
     );    
-  }
+}
+
+function CardTable(props) {
+    return (
+        <div className="card" style={{maxWidth: "36rem"}}>
+            <div className="card-header">{props.header}</div>
+            <table className="card-table table">
+                <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Password</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {props.data.map((val, key) => {
+                    return (
+                        <tr key={key}>
+                            <td>{val.name}</td>
+                            <td>{val.email}</td>
+                            <td>{val.password}</td>
+                        </tr>
+                    )
+                })}
+                </tbody>
+            </table>
+        </div>
+    );
+}
