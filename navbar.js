@@ -9,16 +9,16 @@ function NavBar(){
       <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="#/CreateAccount/">Create Account</a>
+            <a className="nav-link" title="Create a new user account" href="#/CreateAccount/">Create Account</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#/deposit/">Deposit</a>
+            <a className="nav-link" title="Make a deposit to your account" href="#/deposit/">Deposit</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#/withdraw/">Withdraw</a>
+            <a className="nav-link" title="Make a withdrawal from your account" href="#/withdraw/">Withdraw</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#/alldata/">AllData</a>
+            <a className="nav-link" title="View all banking data" href="#/alldata/">AllData</a>
           </li>          
         </ul>
       </div>
