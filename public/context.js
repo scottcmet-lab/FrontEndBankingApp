@@ -33,15 +33,17 @@ function CardTable(props) {
                         <th scope="col">Name</th>
                         <th scope="col">Email</th>
                         <th scope="col">Password</th>
+                        <th scope="col">Balance</th>
                     </tr>
                 </thead>
                 <tbody>
-                {props.data.map((val, key) => {
+                {props.data.toArray().map((val, key) => {
                     return (
                         <tr key={key}>
                             <td>{val.name}</td>
                             <td>{val.email}</td>
                             <td>{val.password}</td>
+                            <td>{val.balance}</td>
                         </tr>
                     )
                 })}

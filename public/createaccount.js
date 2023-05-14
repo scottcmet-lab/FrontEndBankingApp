@@ -5,7 +5,7 @@ function CreateAccount(){
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
   const [valid, setValid]       = React.useState(false);
-  const ctx = React.useContext(UserContext);  
+  //const ctx = React.useContext(UserContext);  
 
   const validateEmail = (email) => {
     return String(email)
@@ -66,7 +66,16 @@ function CreateAccount(){
     if (!validate(name,     'name'))     return;
     if (!validate(email,    'email'))    return;
     if (!validate(password, 'password')) return;
-    ctx.users.push({name,email,password,balance:100});
+
+    const url = `/account/create/${name}/${email}/${password}`;
+    (async () => {
+      var res = await fetch(url);
+      var data = await res.json();
+      console.log(data);
+      const auth  = await firebase.auth();
+      const promise = await auth.createUserWithEmailAndPassword(email,password)
+        .catch(e => console.log(e.message));
+      })();
     setShow(false);
   }    
 

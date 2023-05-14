@@ -13,7 +13,6 @@ MongoClient.connect(url, { useNewUrlParser: true ,useUnifiedTopology:true},funct
 
 // create user account
 function create(name, email, password){
-    console.log(db);
     return new Promise((resolve, reject) => {    
         const collection = db.collection('users');
         const doc = {name, email, password, balance: 0};

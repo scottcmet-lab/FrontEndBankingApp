@@ -6,6 +6,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "firebase": "^9.22.0",
+    "firebase-admin": "^11.8.0",
     "mongodb": "^4.0.0"
   },
   "scripts": {
@@ -16,8 +18,8 @@
     "url": "git+https://github.com/scottcmet-lab/FrontEndBankingApp.git"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "scott.metivier@gmail.com",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/scottcmet-lab/FrontEndBankingApp/issues"
   },

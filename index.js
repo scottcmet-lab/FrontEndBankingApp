@@ -1,7 +1,8 @@
-var express = require('express');
-var app = express();
-var cors = require('cors');
-var dal = require('./dal.js');
+const express = require('express');
+const app = express();
+const cors = require('cors');
+const admin   = require('./admin');
+const dal = require('./dal');
 
 app.use(express.static('public'));
 app.use(cors());
@@ -17,10 +18,11 @@ app.get('/account/create/:name/:email/:password', function(req, res) {
 
 // login
 app.get('/account/login/:email/:password', function (req, res) {
-    res.send({
-        email: req.params.email,
-        password: req.params.password
-    });
+    dal.find(req.params.email)
+        .then((user) => {
+            console.log(user);
+            res.send(user);
+        });
 });
 
 // get all
@@ -46,6 +48,22 @@ app.get('/account/withdraw/:amount', function (req, res) {
 app.get('/account/balance/', function (req, res) {
 
 });
+
+app.get('/auth', function(req,res){
+    // read token from header
+    const idToken = req.headers.authorization
+    console.log('header:', idToken);
+
+    // verify token
+    admin.auth().verifyIdToken(idToken)
+        .then(function(decodedToken) {
+            console.log('decodedToken:',decodedToken);
+            res.send('Authentication Sucess!');
+        }).catch(function(error) {
+            console.log('error:', error);
+            res.send('Authentication Fail!');
+        });
+})
 
 var port = 3000;
 app.listen(port);
