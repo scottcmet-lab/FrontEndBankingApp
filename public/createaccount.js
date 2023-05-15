@@ -7,14 +7,6 @@ function CreateAccount(){
   const [valid, setValid]       = React.useState(false);
   //const ctx = React.useContext(UserContext);  
 
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-      );
-  };
-  
   function validate(field, label){
       if (!field) {
         setStatus('Error: ' + label + ' cannot be empty');
@@ -61,12 +53,13 @@ function CreateAccount(){
     }
   }
 
-  function handleCreate(){
+  function handleCreate() {
     console.log(name,email,password);
     if (!validate(name,     'name'))     return;
     if (!validate(email,    'email'))    return;
     if (!validate(password, 'password')) return;
 
+    let msg = '';
     const url = `/account/create/${name}/${email}/${password}`;
     (async () => {
       var res = await fetch(url);
@@ -74,9 +67,15 @@ function CreateAccount(){
       console.log(data);
       const auth  = await firebase.auth();
       const promise = await auth.createUserWithEmailAndPassword(email,password)
-        .catch(e => console.log(e.message));
-      })();
-    setShow(false);
+        .catch(e => msg = e.message); 
+      if (msg == '') {
+        setShow(false);
+      }
+      else {
+        setStatus("Error: " + msg);
+        setTimeout(() => setStatus(''),3000);
+      }
+    })();
   }    
 
   function clearForm(){

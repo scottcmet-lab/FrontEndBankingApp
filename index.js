@@ -18,7 +18,7 @@ app.get('/account/create/:name/:email/:password', function(req, res) {
 
 // login
 app.get('/account/login/:email/:password', function (req, res) {
-    dal.find(req.params.email)
+    dal.findOne(req.params.email)
         .then((user) => {
             console.log(user);
             res.send(user);

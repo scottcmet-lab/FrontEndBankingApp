@@ -26,37 +26,52 @@ function LoginMsg(props){
 }
 
 function LoginForm(props){
-  const [data, setData] = React.useState('');
+  const [user, setUser] = React.useState('');
   const [email, setEmail]       = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [valid, setValid]       = React.useState(false);
 
   const ctx = React.useContext(UserContext);  
 
-  function handle(){
+  function validate(field, label){
+    if (!field) {
+      props.setStatus('Error: ' + label + ' cannot be empty');
+      setTimeout(() => setStatus(''),3000);
+      return false;
+    }
+    if (label == 'email' && !validateEmail(field)) {
+      props.setStatus('Error: ' + label + ' must be a valid email address');
+      setTimeout(() => props.setStatus(''),3000);
+      return false;
+    }
+    if (label == 'password' && field.length < 8) {
+      props.setStatus('Error: ' + label + ' cannot be less than 8 characters');
+      setTimeout(() => props.setStatus(''),3000);
+      return false;
+    }
+    return true;
+}
 
-    console.log(email);
+function handle(){
+
+    //console.log(email);
+    if (!validate(email,    'email'))    return;
+    if (!validate(password, 'password')) return;
+
+    let msg = '';
     const url = `/account/login/${email}/${password}`;
     (async () => {
-      var res = await fetch(url);
-      var data = await res.json();
-      console.log(data);
+      const auth  = await firebase.auth();      
+      const promise = await auth.signInWithEmailAndPassword(email, password)
+        .catch(e => msg = e.message);
+      if (msg == '') {
+        props.setShow(false);
+      }
+      else {
+        props.setStatus("Error: " + msg);
+        setTimeout(() => props.setStatus(''),3000);
+      }
     })();
-    console.log(data);
-// console.log(user);
-    // console.log(email, password);
-    // if (!user) {
-    //   console.log('one')      
-    //   props.setStatus('fail!')      
-    //   return;      
-    // }
-    // if (user.password == password) {
-    //   console.log('two')            
-    //   props.setStatus('');
-    //   props.setShow(false);
-    //   return;      
-    // }
-    // console.log('three')          
-    // props.setStatus('fail!');        
   }
 
 
@@ -67,7 +82,15 @@ function LoginForm(props){
       className="form-control" 
       placeholder="Enter email" 
       value={email} 
-      onChange={e => setEmail(e.currentTarget.value)}/><br/>
+      onChange={e => {
+        setEmail(e.currentTarget.value);
+        if (!e.currentTarget.value && !password) {
+          setValid(false);
+        }
+        else {
+          setValid(true);
+        }
+      }}/><br/>
 
     Password<br/>
     <input type="password" 
@@ -76,7 +99,7 @@ function LoginForm(props){
       value={password} 
       onChange={e => setPassword(e.currentTarget.value)}/><br/>
 
-    <button type="submit" className="btn btn-light" onClick={handle}>Login</button>
+    <button type="submit" className="btn btn-light" disabled={!valid} onClick={handle}>Login</button>
    
   </>);
 }
