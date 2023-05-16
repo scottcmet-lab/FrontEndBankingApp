@@ -1,8 +1,17 @@
 function NavBar(){
+  const [user, setUser] = React.useState('');
+
   function handle() {
     firebase.auth().signOut();
 
-}  
+  }  
+
+  React.useEffect(() => {
+    if (firebase.auth().currentUser) {
+      setUser(firebase.auth().currentUser.email);
+    }
+  }, []);
+
   return(
     <>
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -27,10 +36,17 @@ function NavBar(){
           <li className="nav-item">
             <a className="nav-link" title="View all banking data" href="#/alldata/">AllData</a>
           </li>  
+        </ul>
+        <div className="collapse navbar-collapse" id="navbarNav2">
+        <ul className="nav navbar-nav navbar-right ml-auto">
           <li className="nav-item">
+            <div className="nav-link">{user}</div>
+          </li>
+        <li className="nav-item">
             <a className="nav-link" title="Log out of user account" href="#/logout/">Log out</a>
           </li>
         </ul>
+        </div>
       </div>
     </nav>
     </>
