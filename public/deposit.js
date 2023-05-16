@@ -52,7 +52,6 @@ function Deposit(){
         var data = await res.json();
         setBalance(balance + Number(deposit));
       })();
-      // ctx.users[ctx.users.length - 1].balance = Number(ctx.users[ctx.users.length - 1].balance) + Number(deposit);
       setShow(false);
     }    
   

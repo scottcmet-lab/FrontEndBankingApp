@@ -1,4 +1,8 @@
 function NavBar(){
+  function handle() {
+    firebase.auth().signOut();
+
+}  
   return(
     <>
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -6,7 +10,7 @@ function NavBar(){
       <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span className="navbar-toggler-icon"></span>
       </button>
-      <div className=".d-none collapse navbar-collapse" id="navbarNav">
+      <div className="collapse navbar-collapse" id="navbarNav">
         <ul className="navbar-nav">
           <li className="nav-item">
             <a className="nav-link" title="Create a new user account" href="#/CreateAccount/">Create Account</a>
@@ -22,10 +26,10 @@ function NavBar(){
           </li>
           <li className="nav-item">
             <a className="nav-link" title="View all banking data" href="#/alldata/">AllData</a>
-          </li>          
+          </li>  
           <li className="nav-item">
-            <a className="nav-link" title="Sign out of user account" href="#/logout/">Sign Out</a>
-          </li>          
+            <a className="nav-link" title="Log out of user account" href="#/logout/">Log out</a>
+          </li>
         </ul>
       </div>
     </nav>

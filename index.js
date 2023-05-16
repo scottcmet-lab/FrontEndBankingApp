@@ -46,7 +46,7 @@ app.get('/account/deposit/:email/:amount', function (req, res) {
 
 // withdraw
 app.get('/account/withdraw/:email/:amount', function (req, res) {
-    dal.update(req.params.email, -Number(req.params.amount))
+    dal.update(req.params.email, Number(-req.params.amount))
         .then((user) => {
             console.log(user);
             res.send(user);

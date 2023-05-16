@@ -4,8 +4,20 @@ function Withdraw(){
     const [withdrawal, setWithdrawal]   = React.useState('');
     const [valid, setValid]       = React.useState(false);
     const [balance, setBalance]   = React.useState('');
-    const ctx = React.useContext(UserContext);  
-  
+    //const ctx = React.useContext(UserContext);  
+ 
+    React.useEffect(() => {
+      if (firebase.auth().currentUser) {
+        var email = firebase.auth().currentUser.email;
+        fetch(`/account/balance/${email}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                setBalance(data.balance);
+            });
+        }
+    }, []);
+ 
     function validate(field, label){
         if (!field) {
           setStatus('Error: ' + label + ' cannot be empty');
@@ -17,7 +29,7 @@ function Withdraw(){
             setTimeout(() => setStatus(''),3000);
             return false;
         }
-        if (Number(field) > Number(ctx.users[ctx.users.length - 1].balance)) {
+        if (Number(field) > balance) {
             setStatus('Error: ' + field + ' - insufficient balance');
             setTimeout(() => setStatus(''),3000);
             return false;
@@ -37,7 +49,13 @@ function Withdraw(){
     function handleWithdrawal(){
       console.log(withdrawal);
       if (!validate(withdrawal,  'withdrawal'))     return;
-      ctx.users[ctx.users.length - 1].balance = Number(ctx.users[ctx.users.length - 1].balance) - Number(withdrawal);
+      var email = firebase.auth().currentUser.email;
+      const url = `/account/withdraw/${email}/${withdrawal}`;
+      (async () => {
+        var res = await fetch(url);
+        var data = await res.json();
+        setBalance(balance - Number(withdrawal));
+      })();
       setShow(false);
     }    
   
@@ -52,19 +70,23 @@ function Withdraw(){
         bgcolor="info"
         header="Withdrawal"
         status={status}
-        body={show ? (  
+        body={!firebase.auth().currentUser ? (
+          <>
+          You must login first
+          </>
+        ):( show ? (  
                 <>
-                Balance:  {ctx.users[ctx.users.length - 1].balance}<br/><br/>
+                Balance:  {balance}<br/><br/>
                 Withdrawal Amount<br/>
                 <input type="number"  className="form-control" id="name" placeholder="Enter withdrawal..." value={withdrawal} onChange={withdrawalChange} /><br/>
                 <button type="submit" className="btn btn-light" disabled={!valid} onClick={handleWithdrawal}>Withdrawal</button>
                 </>
               ):(
                 <>
-                Balance:  {ctx.users[ctx.users.length - 1].balance}<br/><br/>
+                Balance:  {balance}<br/><br/>
                 <h5>Success</h5>
                 <button type="submit" className="btn btn-light" onClick={clearForm}>Make another withdrawal</button>
                 </>
-              )}
+              ))}
       />
     )}

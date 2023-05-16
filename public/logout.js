@@ -1,13 +1,12 @@
 function Logout() {
 
-    function handle() {
+    React.useEffect(() => {
         firebase.auth().signOut();
-
-    }
+    }, []);
 
     return (
         <>
-            <button type="submit" className="btn btn-light" onClick={handle}>Sign Out</button>
+            You have successfully logged out.
         </>
     )
 }
