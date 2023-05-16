@@ -10,10 +10,6 @@ function AllData(){
             });
     }, []);
 
-    return (
-        <CardTable
-            header="All Data"
-            data={data}
-        />
-    );
+    return (<>{data}</>
+            );
 }
