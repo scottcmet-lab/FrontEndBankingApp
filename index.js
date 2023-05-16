@@ -35,18 +35,32 @@ app.get('/account/all', function (req, res) {
 });
 
 // deposit
-app.get('/account/deposit/:amount', function (req, res) {
+app.get('/account/deposit/:email/:amount', function (req, res) {
+    dal.update(req.params.email, Number(req.params.amount))
+        .then((user) => {
+            console.log(user);
+            res.send(user);
+        })
 
 });
 
 // withdraw
-app.get('/account/withdraw/:amount', function (req, res) {
-
+app.get('/account/withdraw/:email/:amount', function (req, res) {
+    dal.update(req.params.email, -Number(req.params.amount))
+        .then((user) => {
+            console.log(user);
+            res.send(user);
+        })
 });
 
 // balance
-app.get('/account/balance/', function (req, res) {
-
+app.get('/account/balance/:email', function (req, res) {
+    console.log(req.params.email);
+    dal.findOne(req.params.email)
+        .then((user) => {
+            console.log(user);
+            res.send(user);
+        });
 });
 
 app.get('/auth', function(req,res){

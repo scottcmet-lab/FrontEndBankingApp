@@ -23,6 +23,9 @@ function NavBar(){
           <li className="nav-item">
             <a className="nav-link" title="View all banking data" href="#/alldata/">AllData</a>
           </li>          
+          <li className="nav-item">
+            <a className="nav-link" title="Sign out of user account" href="#/logout/">Sign Out</a>
+          </li>          
         </ul>
       </div>
     </nav>

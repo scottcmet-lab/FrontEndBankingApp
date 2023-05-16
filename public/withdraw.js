@@ -3,6 +3,7 @@ function Withdraw(){
     const [status, setStatus]     = React.useState('');
     const [withdrawal, setWithdrawal]   = React.useState('');
     const [valid, setValid]       = React.useState(false);
+    const [balance, setBalance]   = React.useState('');
     const ctx = React.useContext(UserContext);  
   
     function validate(field, label){

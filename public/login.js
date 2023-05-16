@@ -65,7 +65,7 @@ function handle(){
       const promise = await auth.signInWithEmailAndPassword(email, password)
         .catch(e => msg = e.message);
       if (msg == '') {
-        props.setShow(false);
+           props.setShow(false);
       }
       else {
         props.setStatus("Error: " + msg);
